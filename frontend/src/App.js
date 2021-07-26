@@ -1,14 +1,13 @@
-import React, { useState, useCallback, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
-import { Notification } from 'react-pnotify';
 import Item from './Order/components/Item';
 import CurrentOrder from './Order/components/CurrentOrder';
-import { FcEmptyTrash, FcPlus, FcMinus } from 'react-icons/fc';
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 
   const [config, setConfig ]= useState([]);
-  const configArry = [...config];
     useEffect(async () => {
       const result = await axios(
         'http://localhost:5000/api/configs',
@@ -115,8 +114,10 @@ const App = () => {
     }, [orderItems]);
 
     const placeOrder = async () => {
-        
-      let items = (orderItems).map(orderItem => ({ id: orderItem.id, quantity: orderItem.quantity }));
+      if(orderItems.length == 0){
+        setShowPnotify({status:true,type:'fail', msg:' Please Select Item!'})
+      }else{
+        let items = (orderItems).map(orderItem => ({ id: orderItem.id, quantity: orderItem.quantity }));
 
         const order = {
           "subTotal" : (subTotal).toFixed(2),
@@ -128,31 +129,50 @@ const App = () => {
 
         await axios.post('http://localhost:5000/api/order', order).then(
           setOrderItems([])
-        );        
+        );   
+      }
+           
     };
     const clearOrder = () => {
       setOrderItems([]);
       setSubTotal(0)
-     
+      setShowPnotify({status:true,type:'success' ,msg:'Order cleared!'})
     }
+
+    const [showPnotify, setShowPnotify]= useState({status:false});
+
+  useEffect(() => {
+    console.log(showPnotify)
+    if (showPnotify.type === "fail") {
+        toast.error( showPnotify.msg, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    } else if (showPnotify.type === "success") {
+            toast.success(showPnotify.msg, {
+                position: "top-right",
+                autoClose: 10000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+    }
+}, [showPnotify])
 
   return (
 
-      <div>
-         <Notification
-          type='error'
-          title='Error example'
-          text='Error message goes here'
-          animateIn='bounceInLeft'
-          animateOut='bounceOutRight'
-          delay={2500}
-          shadow={true}
-          hide={true}
-          nonblock={false}
-          desktop={false}
-        />
+      <div className="outer-div">
+      
       <div className="main-div">
           <div className="menu-div">
+          <ToastContainer />
               <div>
                   <div>
                       <h2>{"Name"}</h2>
@@ -194,19 +214,19 @@ const App = () => {
                 <div className="final-data-main-div">
                   <div className="final-data">
                       <div>Sub Total</div>
-                      <div>${subTotal}</div>
+                      <div>${(subTotal).toFixed(2)}</div>
                   </div>
                   <div className="final-data">
                       <div>Sales Tax</div>
-                      <div>Tax</div>
+                      <div>${(subTotal*0.05).toFixed(2)}</div>
                   </div>
                   <div className="final-data final-total-text">
                       <div>Total</div>
-                      <div>Total</div>
+                      <div>${(subTotal + subTotal*0.05).toFixed(2)}</div>
                   </div>
               </div>
               <div className="pay-btn-div">
-                  <button className="pay-btn" onClick={() => placeOrder()}>Pay</button>
+                  <button className="pay-btn" onClick={() => placeOrder()}>Pay With Cashless Credit</button>
               </div>
           </div>
       </div>
