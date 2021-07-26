@@ -1,17 +1,15 @@
 var seeder = require('mongoose-seed');
  
-// Connect to MongoDB via Mongoose
 seeder.connect('mongodb://localhost:27017/pos', function() {
  
-  // Load Mongoose models
   seeder.loadModels([
     'models/config.js',
+    'models/category.js',
+    'models/item.js',
   ]);
  
-  // Clear specified collections
-  seeder.clearModels(['config'], function() {
+  seeder.clearModels(['config' , 'category', 'item'], function() {
  
-    // Callback to populate DB once collections have been cleared
     seeder.populateModels(data, function() {
       seeder.disconnect();
     });
@@ -19,7 +17,6 @@ seeder.connect('mongodb://localhost:27017/pos', function() {
   });
 });
  
-// Data array containing seed data - documents organized by Model
 var data = [
     {
         'model': 'config',
@@ -33,5 +30,55 @@ var data = [
                 'values': '50'
             }
         ]
-    }
+    },
+    {
+      'model': 'category',
+      'documents': [
+          {
+              'name': 'food',
+              'description': 'foold items'
+          },
+          {
+              'name': 'alchole',
+              'values': 'alchole bervarages'
+          },
+          {
+            'name': 'cold drinks',
+            'values': 'cold bervarages'
+          },
+          {
+            'name': 'hot drinks',
+            'values': 'hot bervarages'
+        }
+      ]
+    },
+    {
+      'model': 'item',
+      'documents': [
+          {
+            'title': 'Chiken',
+            'cover': 'image/url',
+            'weight': '150G',
+            'price': 1500
+          },
+          {
+            'title': 'fish',
+            'cover': 'image/url',
+            'weight': '150G',
+            'price': 1500
+          },
+          {
+            'title': 'Vegitable',
+            'cover': 'image/url',
+            'weight': '150G',
+            'price': 1500
+          },
+          {
+            'title': 'Egg',
+            'cover': 'image/url',
+            'weight': '150G',
+            'price': 1500
+          },
+      ]
+    },
 ];

@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
 
-  oderId : {type: Number, required: true },
   items: { type: Array, required: true },
   subTotal: { type: Number, required: true },
   tax: { type: Number, required: true },

@@ -5,7 +5,7 @@ const getItems = async (req, res, next) => {
 
   let items;
   try {
-    items = await Items.find({});
+    items = await Items.find({}).populate({path: 'category'});
   } catch (err) {
     const error = new HttpError(
       'Something went wrong, could not find a items.',
