@@ -1,21 +1,27 @@
 # RestaurantPOS
 Nuclei Technologies - SSE Practical Test
 
-Clone the app 
+Clone the app  <br/>
 
-Create a data base named 'pos' 
+Create a data base named 'pos'  <br/>
 
-Run seeds file to add seed data to the DB 
-    cd backend 
-    npm run seed
+Install node modules  for backend <br/>
+    `cd  backend`
+    `npm install`
+
+Run seeds file to add seed data to the DB <br/>
+    `npm run seed`
+
+To up the backend <br/>
+    `node  app.js`
+
+Install node modules  for frontend <br/>
+    `cd  frontend`
+    `npm install`
+
+To up the frontend <br/>
+    `npm start`
 
 
-To up the frontend
-    cd frontend
-    npm start
 
-
-To up the backend
-    cd backend
-    node  app.js
 

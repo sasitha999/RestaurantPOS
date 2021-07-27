@@ -175,8 +175,8 @@ const App = () => {
           <ToastContainer />
               <div>
                   <div>
-                      <h2>{"Name"}</h2>
-                      <h6>Location Id#{'lkasfnkasdf'}</h6>
+                      <h2>Simons's BBQ</h2>
+                      <h6>Location Id#{'SIMON123'}</h6>
                   </div>
                   <div className="category-section">
                       <button className="category-btn" onClick={() => changeCategory('all')}>All Items</button>
